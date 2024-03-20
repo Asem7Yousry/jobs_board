@@ -9,12 +9,19 @@ JOB_TYPE = (
     ('part time','part time'),
 )
 
-### function to get image and save it by its (id) and extention to media folder
+### function to get image and save it by its name and extention to media folder
 def upload_img(instance , filename):
     ### split file name to name and extention to get and save extention of uplaoded image 
     imagename , extention = filename.split(".")
     ### return the path of saved uplauded image 
     return f"jobs/{instance}.{extention}"
+
+### function to get cv from user and save it by its name and extention to media folder
+def upload_cv(instance , filename):
+    ### split file name to name and extention to get and save extention of uplaoded image 
+    imagename , extention = filename.split(".")
+    ### return the path of saved uplauded image 
+    return f"apply/{instance}.{extention}"
 
 ## model for job object ##
 class Job(models.Model):
@@ -45,3 +52,18 @@ class Category(models.Model):
     ### method to show each job by its name 
     def __str__(self):
         return self.title
+
+## model for application ##
+class Application(models.Model):
+    name = models.CharField(max_length= 50)
+    job = models.ForeignKey(Job,on_delete= models.CASCADE , related_name= 'apply')
+    email = models.EmailField(max_length= 50)
+    website = models.URLField()
+    cv = models.FileField(upload_to= upload_cv)
+    coverletter = models.TextField(max_length= 5000)
+    date = models.DateField(auto_now= True)
+
+    ### method to show each application qith its user name ###
+    def __str__(self):
+        return self.name
+

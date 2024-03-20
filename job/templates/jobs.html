@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
 
-    {% block content %}
+
+{% block title %}
+    Job Board
+{% endblock %}
+
+{% block content %}
+
     <!-- bradcam_area  -->
     <div class="bradcam_area bradcam_bg_1">
         <div class="container">
             <div class="row">
                 <div class="col-xl-12">
                     <div class="bradcam_text">
-                        <h3>4536+ Jobs Available</h3>
+                        <h3>{{all_jobs.count}}+ Jobs Available</h3>
                     </div>
                 </div>
             </div>
@@ -43,8 +49,9 @@
                                         <div class="single_field">
                                             <select class="wide">
                                                 <option data-display="Category">Category</option>
-                                                <option value="1">Category 1</option>
-                                                <option value="2">Category 2 </option>
+                                                
+                                                <option value="2">{{category}}</option>
+                                                
                                             </select>
                                         </div>
                                     </div>
@@ -122,6 +129,7 @@
 
                     <div class="job_lists m-0">
                         <div class="row">
+                            <!-- looping in jobs in data base  -->
                             {% for job in jobs %}
                             <div class="col-lg-12 col-md-12">
                                 <div class="single_jobs white-bg d-flex justify-content-between">
@@ -130,13 +138,13 @@
                                             <img src="img/svg_icon/1.svg" alt="">
                                         </div>
                                         <div class="jobs_conetent">
-                                            <a href="job_details.html" style="text-transform: capitalize;"><h4>{{job.title}}</h4></a>
+                                            <a href="{% url 'job_details' job.slug %}" target="_blank" style="text-transform: capitalize;"><h4>{{ job }}</h4></a>
                                             <div class="links_locat d-flex align-items-center">
                                                 <div class="location">
                                                     <p> <i class="fa fa-map-marker"></i> California, USA</p>
                                                 </div>
                                                 <div class="location">
-                                                    <p> <i class="fa fa-clock-o"></i> {{job.job_type}}</p>
+                                                    <p> <i class="fa fa-clock-o"></i> {{ job.job_type }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -144,27 +152,39 @@
                                     <div class="jobs_right">
                                         <div class="apply_now">
                                             <a class="heart_mark" href="#"> <i class="fa fa-heart"></i> </a>
-                                            <a href="job_details.html" class="boxed-btn3">Apply Now</a>
+                                            <a href="{% url 'job_details' job.slug %}" target="_blank" class="boxed-btn3">Apply Now</a>
                                         </div>
                                         <div class="date">
-                                            <p>Date line: 31 Jan 2020</p>
-                                            <p>{{job.published_date}}/p>
+                                            <p>Date Line: {{job.puplished_at|date:'j M o'}}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             {% endfor %}
-                            
+                        </div>
                         <div class="row">
                             <div class="col-lg-12">
-                                <div class="pagination_wrap">
-                                    <ul>
-                                        <li><a href="#"> <i class="ti-angle-left"></i> </a></li>
-                                        <li><a href="#"><span>01</span></a></li>
-                                        <li><a href="#"><span>02</span></a></li>
-                                        <li><a href="#"> <i class="ti-angle-right"></i> </a></li>
-                                    </ul>
-                                </div>
+                                <!-- validation if pagination is needed or not -->
+                                {% if jobs.has_other_pages %}
+                                    <div class="pagination_wrap">
+                                        <ul>
+                                            <!-- check if there is previous pages or not -->
+                                            {% if jobs.has_previous %}
+                                                <li><a href="?page={{ jobs.previous_page_number }}"> <i class="ti-angle-left"></i> </a></li>
+                                            {% endif %}
+
+                                            <!-- looping in number of pagination pages -->
+                                            {% for i in jobs.paginator.page_range %}
+                                                <li><a href="?page={{ i }}"><span>{{i}}</span></a></li>
+                                            {% endfor %}
+                                            
+                                            <!-- check if there is next pages or not -->
+                                            {% if jobs.has_next %}
+                                                <li><a href="?page={{ jobs.next_page_number }}"> <i class="ti-angle-right"></i> </a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -173,4 +193,6 @@
         </div>
     </div>
     <!-- job_listing_area_end  -->
-    {% endblock %}
+
+{% endblock %}
+    

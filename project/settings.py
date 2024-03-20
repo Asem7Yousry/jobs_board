@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'blog',
     'contact',
     'home',
+    ### add bootstrap for forms 
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
