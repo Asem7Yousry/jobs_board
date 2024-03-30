@@ -30,4 +30,7 @@ contact
 home
 
 
-login 
+authentication steps:-
+    -- create all templates for account authentication 
+    -- create profile model for each user 
+    -- create signal (create_new_profile) to create profile automaticlly when new user created (sign up)

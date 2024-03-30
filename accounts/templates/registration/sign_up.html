@@ -1,0 +1,29 @@
+{% extends "base_generic.html" %}
+{% load bootstrap4 %}
+
+{% block title %}
+    Sign Up
+{% endblock %}
+
+{% block heading %}
+    Sign Up!
+{% endblock %}
+
+{% block head2 %}
+        sign up here:
+{% endblock %}
+
+{% block body %}
+
+  <form method="post" >
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+    <input type="submit" value="Sign Up" class="boxed-btn3 w-100" >
+    {% endbuttons %}
+  </form>
+
+  <p style="text-align: center;">have already account ? </p>
+  <p style="text-align: center;"><a style="text-decoration: none; "><a href="{% url 'login' %}">Log In!</a></p>
+
+{% endblock %}

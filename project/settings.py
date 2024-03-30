@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'home',
     ### add bootstrap for forms 
     'bootstrap4',
+    ### add django cities field ####
+    'cities_light',
 ]
 
 MIDDLEWARE = [
