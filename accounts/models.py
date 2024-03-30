@@ -28,7 +28,8 @@ class Profile(models.Model):
 #### signal to create profile automaticlly when new user ceated (sign up) ######
 @receiver(post_save, sender=User)
 def create_new_profile(sender, instance , created , **kwargs):
-    ### check if new user created 
+    ### check if new user created #####
     if created:
+        #### create new object of profile for the saved user #####
         Profile.objects.create(user= instance)
 

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}
+    Edit Profile
+{% endblock %}
+
+{% block content %}
+<!-- bradcam_area  -->
+<div class="bradcam_area bradcam_bg_1">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="bradcam_text">
+                    <h3>Edit Profile </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/ bradcam_area  -->
+
+<div class="job_details_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <!-- form for post new job -->
+                <div class="apply_job_form white-bg">
+                    <h4 style="text-align: center;">Edit Your Profile Data:</h4>
+                    <form method="post" novalidate enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% bootstrap_form user_form  %}
+                        {% bootstrap_form profile_form  %}
+                        
+                        {% buttons %}
+                            <button class="boxed-btn3 w-100" type="submit">Edit</button>
+                        {% endbuttons %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
