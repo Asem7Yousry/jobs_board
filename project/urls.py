@@ -25,6 +25,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('admin/', admin.site.urls), 
     path('jobs/',include('job.url')),
+    path('',include('home.url')),
 ]
 ### link all static files of system to all urls 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

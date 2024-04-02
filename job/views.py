@@ -4,6 +4,7 @@ from django.urls import reverse
 from .models import *
 from django.core.paginator import Paginator
 from .forms import *
+from django.contrib.auth.decorators import login_required
 
 #### function to show all jobs in database #####
 def job_list(request):
@@ -21,6 +22,7 @@ def job_list(request):
     return render(request,'jobs.html',contant)
 
 #### function to show the details of each job ####
+@login_required
 def job_details(request , slug):
     ### get job by its slug ####
     requested_job = Job.objects.get(slug = slug)
@@ -46,6 +48,7 @@ def job_details(request , slug):
     return render(request, 'job_details.html',{'job':requested_job , 'form':form})
 
 #### function for post a new job #####
+@login_required
 def post_job(request):
     #### check if method of form is post 
     if request.method == "POST":
