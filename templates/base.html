@@ -47,7 +47,7 @@
                         <div class="row align-items-center">
                             <div class="col-xl-3 col-lg-2">
                                 <div class="logo">
-                                    <a href="index.html">
+                                    <a href="{% url 'home' %}">
                                         <img src="{% static 'img/logo.png' %}" alt="">
                                     </a>
                                 </div>
@@ -71,7 +71,7 @@
                                                     <li><a href="single-blog.html">single-blog</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="contact.html">Contact</a></li>
+                                            <li><a href="{% url 'contact_us' %}">Contact</a></li>
                                         </ul>
                                     </nav>
                                 </div>

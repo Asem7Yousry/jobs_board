@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'bootstrap4',
     ### add django cities field ####
     'cities_light',
+    ### add django filters library ###
+    'django_filters',
 ]
 
 MIDDLEWARE = [

@@ -5,11 +5,18 @@ from .models import *
 from django.core.paginator import Paginator
 from .forms import *
 from django.contrib.auth.decorators import login_required
+from .filter import JobFilter
 
 #### function to show all jobs in database #####
 def job_list(request):
     ### get all jobs objects from database ###
     all_jobs = Job.objects.all()
+    ## count of all jobs ##
+    count = all_jobs.count()
+    ## filter in  all jobs ##
+    myfilter = JobFilter(request.GET,queryset= all_jobs )
+    ## override on alljobs variable ##
+    all_jobs = myfilter.qs
     ## specify number of jobs per page 
     paginator = Paginator(all_jobs, 5)
     ## get page number from request (GET method)
@@ -17,7 +24,7 @@ def job_list(request):
     ## jobs in page number 
     jobs_of_page = paginator.get_page(page_numnber)
     ### passed contant to render page 
-    contant = {"jobs":jobs_of_page,"all_jobs":all_jobs}
+    contant = {"jobs":jobs_of_page,"all_jobs":all_jobs ,'filter':myfilter , 'count':count}
     ### render the ui of jobs with specific needed jobs 
     return render(request,'jobs.html',contant)
 
