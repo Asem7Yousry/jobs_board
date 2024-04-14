@@ -21,7 +21,7 @@ def signup(request):
             ### make user login ###
             login(request,user)
             ### go to profile pages ###
-            return redirect('/jobs/')
+            return redirect('/')
     ### if request metod is get ###
     else:
         form = SignUpForm()

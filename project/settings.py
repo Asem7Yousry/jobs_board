@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'cities_light',
     ### add django filters library ###
     'django_filters',
+    ###  Rest API ###
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

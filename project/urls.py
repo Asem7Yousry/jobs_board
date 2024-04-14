@@ -27,6 +27,8 @@ urlpatterns = [
     path('jobs/',include('job.url')),
     path('contact-us/',include('contact.url')),
     path('',include('home.url')),
+    ### path for Rest API ###
+    path('api-auth/', include('rest_framework.urls')),
 ]
 ### link all static files of system to all urls 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
