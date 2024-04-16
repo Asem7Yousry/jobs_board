@@ -4,8 +4,10 @@ from .api import job_list_api , job_details_api
 
 urlpatterns = [
     path('',job_list , name="job_list"),
+    # path('',JobList.as_view() , name="job_list"),
     path('<str:slug>',job_details , name="job_details"),
-    path('post_job/',post_job , name="post_job"),
+    # path('post_job/',post_job , name="post_job"),
+    path('post_job/',PostJobForm.as_view() , name="post_job"),
     ### api links ###
 
     ## function based views links ##

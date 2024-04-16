@@ -41,7 +41,11 @@
                         <div class="p-5">
                         <a href="{% url 'edit_profile' %}" style="text-decoration: none; text-align: center;" class="boxed-btn3 w-100">Edit Profile?</a>
                     </div>
-                    <a href="{% url 'logout' %}" style=" text-align: center; color: red;">Logout!</a>
+                    {% comment %} <a href="{% url 'logout' %}" style=" text-align: center; color: red;">Logout!</a> {% endcomment %}
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" style=" text-align: center; color: red;">Logout</button>
+                    </form>
                     </div>
                 </div>
            
