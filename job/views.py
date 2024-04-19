@@ -1,3 +1,4 @@
+from typing import Any
 from django.http import HttpResponse
 from django.shortcuts import render , redirect
 from django.urls import reverse
@@ -9,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .filter import JobFilter
 ## for class based views ##
-from django.views.generic import FormView , ListView , CreateView
+from django.views.generic import FormView , ListView , CreateView , DetailView
 
 #### function to show all jobs in database #####
 def job_list(request):
@@ -54,30 +55,58 @@ def job_list(request):
 #         return context
     
 #### function to show the details of each job ####
-@login_required
-def job_details(request , slug):
-    ### get job by its slug ####
-    requested_job = Job.objects.get(slug = slug)
-    ### check if request method is post 
-    if request.method == "POST":
-        ### get form with requested data ###
-        form = Apply_form(request.POST,request.FILES)
-        #### check validation of requested data ####
-        if form.is_valid():
-            ### save a temporary copy requested data of form in table of application in data base ####
-            myform = form.save(commit=False)
-            ### save a job field in applictaion ### 
-            myform.job = requested_job
-            #### save all fields of appliction model ####
-            myform.save()
-            ### redirect to job list page ###
-            return redirect("job_list")
-    ### if request method is get ###
-    else:
-        #### empty form ####
-        form = Apply_form()
-    ### render job deatails page
-    return render(request, 'job/job_details.html',{'job':requested_job , 'form':form})
+# @login_required
+# def job_details(request , slug):
+#     ### get job by its slug ####
+#     requested_job = Job.objects.get(slug = slug)
+#     ### check if request method is post 
+#     if request.method == "POST":
+#         ### get form with requested data ###
+#         form = Apply_form(request.POST,request.FILES)
+#         #### check validation of requested data ####
+#         if form.is_valid():
+#             ### save a temporary copy requested data of form in table of application in data base ####
+#             myform = form.save(commit=False)
+#             ### save a job field in applictaion ### 
+#             myform.job = requested_job
+#             #### save all fields of appliction model ####
+#             myform.save()
+#             ### redirect to job list page ###
+#             return redirect("job_list")
+#     ### if request method is get ###
+#     else:
+#         #### empty form ####
+#         form = Apply_form()
+#     ### render job deatails page
+#     return render(request, 'job/job_details.html',{'job':requested_job , 'form':form})
+
+#### view to show each job indetails ####
+class JobDetail(DetailView, FormView):
+    model = Job
+    template_name = 'job/job_details.html'
+    context_object_name = 'job'
+    form_class = Apply_form
+    success_url = '/jobs'
+
+### view to apply on the job ###
+class ApplyJob(DetailView , LoginRequiredMixin ,FormView):
+    model = Job
+    form_class = Apply_form
+    context_object_name = 'job'
+    success_url = '/jobs'
+    template_name = 'job/apply_job.html'
+
+    ## if application form is valid ##
+    def form_valid(self ,form):
+        form = form.save(commit=False)
+        form.job = self.get_object()
+        form.save()
+        return super().form_valid(form)
+    
+    ## if not valid ##
+    def form_invalid(self, form):
+        return redirect('apply_job')
+
 
 ############################# POST JOB in different ways ###################################
 

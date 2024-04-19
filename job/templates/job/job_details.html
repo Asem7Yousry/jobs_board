@@ -81,15 +81,12 @@
                 </div>
                 <div class="apply_job_form white-bg">
                     <h4>Apply for the job</h4>
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {% bootstrap_form form  %}
                         <div class="col-md-12">
                             <div class="submit_btn">
-                                <button class="boxed-btn3 w-100" type="submit">Apply Now</button>
+                            
+                                <a class="boxed-btn3 w-100" type="submit" href="{% url 'apply_job' job.id %}" style="text-decoration:None;">Apply Now</a>
                             </div>
                         </div>
-                    </form>
                 </div>
             </div>
             <div class="col-lg-4">
