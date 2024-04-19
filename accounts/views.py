@@ -1,33 +1,54 @@
 from typing import Any
+from django.forms import BaseModelForm
+from django.http import HttpResponse
 from django.shortcuts import render , redirect
 from .forms import *
 from django.contrib.auth import authenticate , login
 from .models import Profile
 from django.contrib import messages
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView , FormView
+
 
 #### sign up function ####
-def signup(request):
-    ### check the request method ###
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        #### check the validation of data of form ####
-        if form.is_valid():
-            ## save data form in user model ##
+class SignUp(FormView):
+    form_class = SignUpForm
+    success_url = '/jobs'
+    template_name = 'registration/sign_up.html'
+
+    
+    def form_valid(self, form):
+            ## save object from form data ##
             form.save()
-            ### get username and passwoerd ####
+            ## get username and password from form ##
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
-            ### check authentication of user data  ###
+            ## check authentication ##
             user = authenticate(username= username , password= password)
-            ### make user login ###
-            login(request,user)
-            ### go to profile pages ###
-            return redirect('/')
-    ### if request metod is get ###
-    else:
-        form = SignUpForm()
-    return render(request,'registration\sign_up.html',{'form':form})
+            ## login for new registered user ##
+            login(self.request , user)
+            return super().form_valid(form)
+ 
+# def signup(request):
+#     ### check the request method ###
+#     if request.method == 'POST':
+#         form = SignUpForm(request.POST)
+#         #### check the validation of data of form ####
+#         if form.is_valid():
+#             ## save data form in user model ##
+#             form.save()
+#             ### get username and passwoerd ####
+#             username = form.cleaned_data['username']
+#             password = form.cleaned_data['password1']
+#             ### check authentication of user data  ###
+#             user = authenticate(username= username , password= password)
+#             ### make user login ###
+#             login(request,user)
+#             ### go to profile pages ###
+#             return redirect('/')
+#     ### if request metod is get ###
+#     else:
+#         form = SignUpForm()
+#     return render(request,'registration\sign_up.html',{'form':form})
 
 #### view of show profile data ####
 # def show_profile(request):
