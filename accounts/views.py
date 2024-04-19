@@ -1,8 +1,10 @@
+from typing import Any
 from django.shortcuts import render , redirect
 from .forms import *
 from django.contrib.auth import authenticate , login
 from .models import Profile
 from django.contrib import messages
+from django.views.generic import TemplateView
 
 #### sign up function ####
 def signup(request):
@@ -28,12 +30,20 @@ def signup(request):
     return render(request,'registration\sign_up.html',{'form':form})
 
 #### view of show profile data ####
-def show_profile(request):
-    ### get profile object of user in request ###
-    profile = Profile.objects.get(user= request.user)
-    ## render profile page ###
-    return render(request,'accounts\profile.html',{'profile':profile})
+# def show_profile(request):
+#     ### get profile object of user in request ###
+#     profile = Profile.objects.get(user= request.user)
+#     ## render profile page ###
+#     return render(request,'accounts\profile.html',{'profile':profile})
 
+#### class view of show profile data ####
+class Profile_View(TemplateView):
+    template_name = 'accounts\profile.html'
+    
+    def get_context_data(self ,**kwargs: Any):
+        context = super().get_context_data(**kwargs)
+        context['profile'] = Profile.objects.get(user = self.request.user)
+        return context
 
 #### view to edit profile data ###
 def edit_profile(request):
