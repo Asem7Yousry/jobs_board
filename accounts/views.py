@@ -6,7 +6,7 @@ from .forms import *
 from django.contrib.auth import authenticate , login
 from .models import Profile
 from django.contrib import messages
-from django.views.generic import TemplateView , FormView
+from django.views.generic import TemplateView , FormView 
 
 
 #### sign up function ####
@@ -15,11 +15,11 @@ class SignUp(FormView):
     success_url = '/jobs'
     template_name = 'registration/sign_up.html'
 
-    
     def form_valid(self, form):
             ## save object from form data ##
             form.save()
-            ## get username and password from form ##
+            ########## Log In after signup ###########
+            ## get username and password from form  ##
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
             ## check authentication ##

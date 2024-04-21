@@ -81,12 +81,10 @@ def job_list(request):
 #     return render(request, 'job/job_details.html',{'job':requested_job , 'form':form})
 
 #### view to show each job indetails ####
-class JobDetail(DetailView, FormView):
+class JobDetail(DetailView):
     model = Job
     template_name = 'job/job_details.html'
     context_object_name = 'job'
-    form_class = Apply_form
-    success_url = '/jobs'
 
 ### view to apply on the job ###
 class ApplyJob(DetailView , LoginRequiredMixin ,FormView):
